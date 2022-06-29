@@ -6,6 +6,8 @@ app.use(express.json())
 
 const mockedCustomers = [];
 const accountResource = '/account'
+const statementResource = '/statement'
+
 
 /**
  * cpf - string
@@ -36,6 +38,23 @@ app.post(accountResource, (req, res) => {
       message: error.message
     })
   }
+})
+
+app.get(`${statementResource}/:cpf`, (req, res) => {
+  
+  try {
+    const { cpf } = req.params;
+
+    const foundCustomer = mockedCustomers.find(customer => customer.cpf === cpf);
+    if(!foundCustomer) throw new Error('Customer not found');
+
+    return res.json(foundCustomer.statement)
+  } catch (error) {
+    return res.status(404).json({
+      message: error.message
+    })
+  }
+
 })
 
 app.listen(3333, () => console.log('server running...'))
