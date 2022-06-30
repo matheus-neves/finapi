@@ -117,4 +117,13 @@ app.get(`${statementResource}/date`, verifyIfExistsAccountCPF, (req, res) => {
   return res.json(statement)
 })
 
+app.put(accountResource, verifyIfExistsAccountCPF, (req, res) => {
+  const { name } = req.body;
+  const { customer } = req;
+
+  customer.name = name;
+
+  return res.status(201).send(customer)
+})
+
 app.listen(3333, () => console.log('server running...'))
