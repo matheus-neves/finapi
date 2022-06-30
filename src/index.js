@@ -10,6 +10,7 @@ const accountResource = '/account'
 const statementResource = '/statement'
 const depositResource = '/deposit'
 const withdrawResource = '/withdraw'
+const balanceResource = '/balance'
 
 
 function verifyIfExistsAccountCPF(req, res, next) {
@@ -135,6 +136,12 @@ app.delete(accountResource, verifyIfExistsAccountCPF, (req, res) => {
   const { customer } = req;
   mockedCustomers.splice(customer, 1)
   return res.status(200).json(mockedCustomers)
+})
+
+app.get(balanceResource, verifyIfExistsAccountCPF, (req, res) => {
+  const { customer } = req;
+  const balance = getBalance(customer.statement);
+  return res.json(balance)
 })
 
 app.listen(3333, () => console.log('server running...'))
