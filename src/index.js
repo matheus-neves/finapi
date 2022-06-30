@@ -131,4 +131,10 @@ app.get(accountResource, verifyIfExistsAccountCPF, (req, res) => {
   return res.json(customer);
 })
 
+app.delete(accountResource, verifyIfExistsAccountCPF, (req, res) => {
+  const { customer } = req;
+  mockedCustomers.splice(customer, 1)
+  return res.status(200).json(mockedCustomers)
+})
+
 app.listen(3333, () => console.log('server running...'))
